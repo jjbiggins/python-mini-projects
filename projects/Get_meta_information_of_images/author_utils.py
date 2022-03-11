@@ -167,5 +167,5 @@ def get_author(filename):
     pSD = get_file_security(filename)
     owner_name, owner_domain, owner_sid_type = pSD.get_owner()
     if owner_domain:
-        owner_name = '{}\\{}'.format(owner_domain, owner_name)
+        owner_name = f'{owner_domain}\\{owner_name}'
     return owner_name

@@ -6,9 +6,6 @@ import os
 # Setting up session
 s = requests.session()  
 
-# List contaiting all the films for which data has to be scraped from IMDB
-films = []
-
 # Lists contaiting web scraped data
 names = []
 ratings = []
@@ -21,11 +18,7 @@ path = input("Enter the path where your films are: ")
 # Films with extensions
 filmswe = os.listdir(path)
 
-for film in filmswe:
-    # Append into my films list (without extensions)
-    films.append(os.path.splitext(film)[0])
-    # print(os.path.splitext(film)[0])
-
+films = [os.path.splitext(film)[0] for film in filmswe]
 for line in films:
     # x = line.split(", ")
     title = line.lower()
@@ -66,7 +59,7 @@ for line in films:
                 names.append(name1)
                 ratings.append(rating)
                 genres.append(genre)
-                
+
 
 
     except Exception:
