@@ -244,9 +244,9 @@ class Bill_App:
         self.m_t_g_p = self.thermal_gun.get()*15
         self.total_medical_price = float(self.m_m_p+self.m_h_g_p+self.m_d_p+self.m_n_p+self.m_t_g_p+self.m_s_p)
 
-        self.medical_price.set("Rs. "+str(self.total_medical_price))
+        self.medical_price.set(f"Rs. {self.total_medical_price}")
         self.c_tax = round((self.total_medical_price*0.05), 2)
-        self.medical_tax.set("Rs. "+str(self.c_tax))
+        self.medical_tax.set(f"Rs. {str(self.c_tax)}")
 
         self.g_r_p = self.rice.get()*10
         self.g_f_o_p = self.food_oil.get()*10
@@ -256,9 +256,9 @@ class Bill_App:
         self.g_m_p = self.maggi.get()*5
         self.total_grocery_price = float(self.g_r_p+self.g_f_o_p+self.g_w_p+self.g_d_p+self.g_f_p+self.g_m_p)
 
-        self.grocery_price.set("Rs. " + str(self.total_grocery_price))
+        self.grocery_price.set(f"Rs. {self.total_grocery_price}")
         self.g_tax = round((self.total_grocery_price*5), 2)
-        self.grocery_tax.set("Rs. " + str(self.g_tax))
+        self.grocery_tax.set(f"Rs. {str(self.g_tax)}")
 
         self.c_d_s_p = self.sprite.get()*10
         self.c_d_l_p = self.limka.get()*10
@@ -268,9 +268,9 @@ class Bill_App:
         self.c_m_d = self.mountain_duo.get()*10
         self.total_cold_drinks_price = float(self.c_d_s_p+self.c_d_l_p+self.c_d_m_p+self.c_d_c_p+self.c_d_f_p+self.c_m_d)
 
-        self.cold_drinks_price.set("Rs. "+str(self.total_cold_drinks_price))
+        self.cold_drinks_price.set(f"Rs. {self.total_cold_drinks_price}")
         self.c_d_tax = round((self.total_cold_drinks_price * 0.1), 2)
-        self.cold_drinks_tax.set("Rs. "+str(self.c_d_tax))
+        self.cold_drinks_tax.set(f"Rs. {str(self.c_d_tax)}")
 
         self.total_bill = float(self.total_medical_price+self.total_grocery_price+self.total_cold_drinks_price+self.c_tax+self.g_tax+self.c_d_tax)
 
@@ -281,8 +281,8 @@ class Bill_App:
         self.txtarea.insert(END, f"\n Bill Number:{self.bill_no.get()}")
         self.txtarea.insert(END, f"\nCustomer Name:{self.c_name.get()}")
         self.txtarea.insert(END, f"\nPhone Number{self.c_phone.get()}")
-        self.txtarea.insert(END, f"\n================================")
-        self.txtarea.insert(END, f"\nProducts\t\tQTY\t\tPrice")
+        self.txtarea.insert(END, "\\n================================")
+        self.txtarea.insert(END, "\\nProducts\\t\\tQTY\\t\\tPrice")
 
 #=========billArea=================================================
     def bill_area(self):
@@ -331,7 +331,7 @@ class Bill_App:
             self.txtarea.insert(END, f"\n Fanta\t\t{self.newsprin.get()}\t\t{self.c_d_f_p}")
         if self.mountain_duo.get() != 0:
             self.txtarea.insert(END, f"\n Mountain Duo\t\t{self.sanitizer.get()}\t\t{self.c_m_d}")
-            self.txtarea.insert(END, f"\n--------------------------------")
+            self.txtarea.insert(END, "\\n--------------------------------")
         # ===============taxes==============================
         if self.medical_tax.get() != '0.0':
             self.txtarea.insert(END, f"\n Medical Tax\t\t\t{self.medical_tax.get()}")
@@ -341,20 +341,18 @@ class Bill_App:
             self.txtarea.insert(END, f"\n Cold Drinks Tax\t\t\t{self.cold_drinks_tax.get()}")
 
         self.txtarea.insert(END, f"\n Total Bil:\t\t\t Rs.{self.total_bill}")
-        self.txtarea.insert(END, f"\n--------------------------------")
+        self.txtarea.insert(END, "\\n--------------------------------")
         self.save_bill()
 
     #=========savebill============================
     def save_bill(self):
         op = messagebox.askyesno("Save Bill", "Do you want to save the bill?")
-        if op > 0:
-            self.bill_data = self.txtarea.get('1.0', END)
-            f1 = open("bills/"+str(self.bill_no.get())+".txt", "w")
+        if op <= 0:
+            return
+        self.bill_data = self.txtarea.get('1.0', END)
+        with open(f"bills/{str(self.bill_no.get())}.txt", "w") as f1:
             f1.write(self.bill_data)
-            f1.close()
-            messagebox.showinfo("Saved", f"Bill no:{self.bill_no.get()} Saved Successfully")
-        else:
-           return
+        messagebox.showinfo("Saved", f"Bill no:{self.bill_no.get()} Saved Successfully")
 
     # ===================find_bill================================
     def find_bill(self):
